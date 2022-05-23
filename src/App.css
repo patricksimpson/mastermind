@@ -36,3 +36,61 @@
     transform: rotate(360deg);
   }
 }
+.code-box {
+  border:1px solid #ccc;
+  margin: 1rem auto;
+  width: 154px;
+}
+.code-row {
+  display: flex;
+  border:1px solid #ccc;
+}
+.code-space {
+  background-color:#eee;
+  width: 36px;
+  height: 36px;
+  margin: 1px;
+}
+.color-picker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 154px;
+  height: 36px;
+  display: flex;
+}
+.pick {
+  background-color: #ccc;
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+  border: 1px solid #ccc;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.black {
+  background-color: black;
+}
+
+.white {
+  background-color: white;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.highlight {
+  background-color: #eec;
+}
