@@ -17,10 +17,14 @@ For more detailed instructions: https://www.wikihow.com/Play-Mastermind
 - The order of the white and black pegs does not matter.
 
 ### End
-If you guess the correct code, you win!
+
+If you guess the correct code, you win! 
 
 ![image](https://user-images.githubusercontent.com/856965/170102734-9dac1431-1f8b-493f-bded-df6f6d6ad410.png)
 
+### Restart
+
+- Refresh your browser for a new game. 
 
 ## Notes
 
