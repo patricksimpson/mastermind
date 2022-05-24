@@ -135,9 +135,11 @@ const App = () => {
     return (
     <div className="App">
     <h1>Mastermind</h1>
-      <button onClick={() => { setMode('easy');}}>Easy</button>
-      <button onClick={() => { setMode('medium');}}>Medium</button>
-      <button onClick={() => { setMode('hard');}}>Hard</button>
+      <button className="button" onClick={() => { setMode('easy');}}>Easy</button>
+      {' '}
+      <button className="button" onClick={() => { setMode('medium');}}>Medium</button>
+      {' '}
+      <button className="button" onClick={() => { setMode('hard');}}>Hard</button>
     </div>);
   }
   
@@ -146,8 +148,8 @@ const App = () => {
       <h1>Mastermind</h1>
       {status && <h2>{status}</h2>}
       <div className="code-box">
-    {rows.map((row) => (
-      <div id={`row-${row}`} className="code-row">
+        {rows.map((row, index) => (
+          <div id={`row-${row}`} className={`code-row ${index == 0 ? 'highlight' : null}`}>
         <div onClick={(e)=> {setColor(e, row, 1);}} className="code-space"></div>
         <div onClick={(e)=> {setColor(e, row, 2);}} className="code-space"></div>
         <div onClick={(e)=> {setColor(e, row, 3);}} className="code-space"></div>
