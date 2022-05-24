@@ -309,8 +309,8 @@ const App = () => {
       <br />
       <br />
       <br />
-      <a href="https://github.com/patricksimpson/mastermind">Github</a> |{" "}
-      <a href="https://www.wikihow.com/Play-Mastermind">How to play</a>
+      <a target="_blank" href="https://github.com/patricksimpson/mastermind">Github</a> |{" "}
+      <a target="_blank" href="https://www.wikihow.com/Play-Mastermind">How to play</a>
     </div>
   );
 };
