@@ -74,16 +74,18 @@ const App = () => {
   }
 
   function pickColor(e) {
-    let curPick = picks;
-    let color = e.target.dataset.color;
-    curPick[currentPick - 1] = color;
-    setPicks(curPick);
-    currentPickEle.className = "";
-    currentPickEle.classList.add("code-space");
-    currentPickEle.classList.add(color);
-    let pEle = document.getElementById("color-picker");
-    setCurrentPickEle(null);
-    setCurrentPick(null);
+    if (currentPickEle) {
+      let curPick = picks;
+      let color = e.target.dataset.color;
+      curPick[currentPick - 1] = color;
+      setPicks(curPick);
+      currentPickEle.className = "";
+      currentPickEle.classList.add("code-space");
+      currentPickEle.classList.add(color);
+      let pEle = document.getElementById("color-picker");
+      setCurrentPickEle(null);
+      setCurrentPick(null);
+    }
   }
 
   function gradeRow() {
@@ -192,6 +194,7 @@ const App = () => {
       <div className="code-box">
         {rows.map((row, index) => (
           <div
+            key={`mm-${index}`}
             id={`row-${row}`}
             className={`code-row ${index == 0 ? "highlight" : null}`}
           >
