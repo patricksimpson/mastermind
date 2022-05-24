@@ -127,11 +127,12 @@ const App = () => {
       initialValue
     );
     if (sumWithInitial >= 8) {
-      setStatus(`You win in ${currentRow}! 🎉`);
+      setStatus(`You won in ${currentRow}! 🎉`);
       reveal();
+    } else {
+      setCurrentRow(currentRow + 1);
+      setPicks(["", "", "", ""]);
     }
-    setCurrentRow(currentRow + 1);
-    setPicks(["", "", "", ""]);
   }
 
   useEffect(() => {
