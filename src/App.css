@@ -123,6 +123,14 @@
   background-color: #f1f12f;
 }
 
+.pink {
+  background-color: pink;
+}
+
+.orange {
+  background-color: orange;
+}
+
 .answer-row {
   border: 1px solid #000;
   background-color: #333;

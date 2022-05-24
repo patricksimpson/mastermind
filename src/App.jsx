@@ -12,14 +12,38 @@ const App = () => {
   const [currentPickEle, setCurrentPickEle] = useState(null);
   const [picks, setPicks] = useState([]);
   const [status, setStatus] = useState(null);
+  const [mode, setMode] = useState();
 
   useEffect(() => {
-    const colors = ['blue', 'green', 'red', 'black', 'white', 'yellow'];
+    init();
+  }, [mode]);
+
+  const init = () => {
+    let colors = ['blue', 'green', 'red', 'black', 'white', 'yellow'];
+
+    if(mode == 'medium') {
+      colors.push('pink');
+    }
+
+    if(mode == 'hard') {
+      colors.push('orange');
+    }
+
     let tempCode = shuffleArray(colors).splice(0, 4);
     setCode(tempCode);
     setCurrentRow(1);
     setPicks(['', '', '', '']);              
-  }, []);
+  };
+
+  useEffect(() => {
+    let $row = document.getElementById(`row-${currentRow}`);
+    if(!$row) return;
+    if(currentRow > 1) {
+      let $lastRow = document.getElementById(`row-${currentRow - 1}`);
+      $lastRow.classList.remove('highlight');
+    }
+    $row.classList.add('highlight');
+  }, [currentRow]);
 
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -32,6 +56,7 @@ const App = () => {
   }
 
   function setColor(e, row, space) {
+    if(row !== currentRow) return;
     e.target.classList.add('highlight');
     if(currentPickEle) {
       currentPickEle.classList.remove('highlight');
@@ -57,6 +82,8 @@ const App = () => {
     currentPickEle.classList.add('code-space');
     currentPickEle.classList.add(color);
     let pEle = document.getElementById('color-picker');
+    setCurrentPickEle(null);
+    setCurrentPick(null);
   }
 
   function gradeRow() {
@@ -103,6 +130,16 @@ const App = () => {
       $answer.classList.add(i);
     });
   };
+
+  if (!mode) {
+    return (
+    <div className="App">
+    <h1>Mastermind</h1>
+      <button onClick={() => { setMode('easy');}}>Easy</button>
+      <button onClick={() => { setMode('medium');}}>Medium</button>
+      <button onClick={() => { setMode('hard');}}>Hard</button>
+    </div>);
+  }
   
   return (
     <div className="App">
@@ -110,7 +147,7 @@ const App = () => {
       {status && <h2>{status}</h2>}
       <div className="code-box">
     {rows.map((row) => (
-      <div className="code-row">
+      <div id={`row-${row}`} className="code-row">
         <div onClick={(e)=> {setColor(e, row, 1);}} className="code-space"></div>
         <div onClick={(e)=> {setColor(e, row, 2);}} className="code-space"></div>
         <div onClick={(e)=> {setColor(e, row, 3);}} className="code-space"></div>
@@ -138,6 +175,11 @@ const App = () => {
           <div data-color="white" className="pick white" onClick={(e)=> { pickColor(e); }}/>
           <div data-color="red" className="pick red" onClick={(e)=> { pickColor(e); }}/>
           <div data-color="green"className="pick green" onClick={(e)=> { pickColor(e); }}/>
+          {(mode == 'hard' || mode == 'medium') && (
+      <div data-color="pink"className="pick pink" onClick={(e)=> { pickColor(e); }}/>)}
+
+    {mode == 'hard' && (
+      <div data-color="orange" className="pick orange" onClick={(e)=> { pickColor(e); }}/>)}
         </div>
       </div>
       <button onClick={gradeRow} className="button">Grade</button>
