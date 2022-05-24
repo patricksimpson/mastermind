@@ -21,11 +21,11 @@ const App = () => {
   const init = () => {
     let colors = ['blue', 'green', 'red', 'black', 'white', 'yellow'];
 
-    if(mode == 'medium') {
+    if(mode > 6) {
       colors.push('pink');
     }
 
-    if(mode == 'hard') {
+    if(mode > 7) {
       colors.push('orange');
     }
 
@@ -135,11 +135,11 @@ const App = () => {
     return (
     <div className="App">
     <h1>Mastermind</h1>
-      <button className="button" onClick={() => { setMode('easy');}}>Easy</button>
+      <button className="button" onClick={() => { setMode(6);}}>Easy</button>
       {' '}
-      <button className="button" onClick={() => { setMode('medium');}}>Medium</button>
+      <button className="button" onClick={() => { setMode(7);}}>Medium</button>
       {' '}
-      <button className="button" onClick={() => { setMode('hard');}}>Hard</button>
+      <button className="button" onClick={() => { setMode(8);}}>Hard</button>
       <br/>
       <br/>
       <br/>
@@ -182,10 +182,10 @@ const App = () => {
           <div data-color="white" className="pick white" onClick={(e)=> { pickColor(e); }}/>
           <div data-color="red" className="pick red" onClick={(e)=> { pickColor(e); }}/>
           <div data-color="green"className="pick green" onClick={(e)=> { pickColor(e); }}/>
-          {(mode == 'hard' || mode == 'medium') && (
+          {(mode > 6) && (
       <div data-color="pink"className="pick pink" onClick={(e)=> { pickColor(e); }}/>)}
 
-    {mode == 'hard' && (
+    {mode > 7 && (
       <div data-color="orange" className="pick orange" onClick={(e)=> { pickColor(e); }}/>)}
         </div>
       </div>
