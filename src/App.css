@@ -39,36 +39,68 @@
 .code-box {
   border:1px solid #ccc;
   margin: 1rem auto;
-  width: 154px;
+  width: 196px;
+  position: relative;
+  border-radius: 8px;
 }
 .code-row {
   display: flex;
   border:1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 2px;
 }
 .code-space {
-  background-color:#eee;
+  background-color:#bbb;
   width: 36px;
   height: 36px;
   margin: 1px;
+  border-radius: 24px;
+  border: 1px solid #ccc;
 }
 .color-picker {
   position: absolute;
   top: 0;
   left: 0;
-  width: 154px;
+  width: 36px;
   height: 36px;
-  display: flex;
+  left: -64px;
+}
+.color-picker:hover {
+  cursor: pointer;
+}
+
+.code-space:hover {
+  cursor: pointer;
 }
 .pick {
   background-color: #ccc;
   border-radius: 50%;
-  height: 16px;
-  width: 16px;
+  height: 32px;
+  width: 32px;
   border: 1px solid #ccc;
 }
 
+.highlight {
+  border:1px solid #702ecc;
+  opacity: 0.65;
+}
+.peg {
+  height: 8px;
+  width: 8px;
+  border-radius: 16px;
+  border: 1px solid #ccc;
+  float: left;
+  margin: 1px;
+  background-color: #bbb;
+}
+.grade {
+  width: 24px;
+  padding: 4px;
+}
+
+
 .blue {
-  background-color: blue;
+  background-color: #0000b9;
 }
 
 .black {
@@ -80,17 +112,36 @@
 }
 
 .green {
-  background-color: green;
+  background-color: #12ad12;
 }
 
 .red {
-  background-color: red;
+  background-color: #e13838;
 }
 
 .yellow {
-  background-color: yellow;
+  background-color: #f1f12f;
 }
 
-.highlight {
-  background-color: #eec;
+.answer-row {
+  border: 1px solid #000;
+  background-color: #333;
+}
+
+.answer-row.revealed {
+  background-color: white;
+}
+
+.button {
+  width: 196px;
+  color: white;
+  border-radius: 8px;
+  background-color: #4e4a76;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  border: 1px solid #333;
+  cursor: pointer;
+}
+h1, h2 {
+  color: #222;
 }
