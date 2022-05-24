@@ -32,7 +32,7 @@ const App = () => {
     let tempCode = shuffleArray(colors).splice(0, 4);
     setCode(tempCode);
     setCurrentRow(1);
-    setPicks(['', '', '', '']);              
+    setPicks(['', '', '', '']);
   };
 
   useEffect(() => {
@@ -140,7 +140,12 @@ const App = () => {
       <button className="button" onClick={() => { setMode('medium');}}>Medium</button>
       {' '}
       <button className="button" onClick={() => { setMode('hard');}}>Hard</button>
-    </div>);
+      <br/>
+      <br/>
+      <br/>
+      <a href="https://github.com/patricksimpson/mastermind">Github</a>
+    </div>
+    );
   }
   
   return (
@@ -185,6 +190,10 @@ const App = () => {
         </div>
       </div>
       <button onClick={gradeRow} className="button">Grade</button>
+      <br/>
+      <br/>
+      <br/>
+      <a href="https://github.com/patricksimpson/mastermind">Github</a>
     </div>
   );
 };
