@@ -207,7 +207,7 @@ const App = () => {
     return (
       <div className="App">
         <h1>
-          Mastermind <img src="mastermind/favicon.png" className="icon" />
+          Mastermind <img src="favicon.png" className="icon" />
         </h1>
         <button
           className="button"
@@ -257,7 +257,7 @@ const App = () => {
   return (
     <div className="App">
       <h1>
-        Mastermind <img src="mastermind/favicon.png" className="icon" />
+        Mastermind <img src="favicon.png" className="icon" />
       </h1>
       {status && <h2>{status}</h2>}
       <div className="code-box">
