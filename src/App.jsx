@@ -33,6 +33,7 @@ const App = () => {
     setCode(tempCode);
     setCurrentRow(1);
     setPicks(["", "", "", ""]);
+    setNextPick();
   };
 
   useEffect(() => {
@@ -55,15 +56,15 @@ const App = () => {
     return array;
   }
 
-  function setColor(e, row, space) {
-    if (row !== currentRow) return;
-    e.target.classList.add("highlight");
+  function setColor(ele, row, space) {
+    if (row!== currentRow) return;
+    ele.classList.add("highlight");
     if (currentPickEle) {
       currentPickEle.classList.remove("highlight");
     }
     setCurrentPick(space);
-    setCurrentPickEle(e.target);
-    showColorPicker(e.target);
+    setCurrentPickEle(ele);
+    showColorPicker(ele);
   }
 
   function showColorPicker(ele) {
@@ -84,7 +85,12 @@ const App = () => {
       currentPickEle.classList.add(color);
       let pEle = document.getElementById("color-picker");
       setCurrentPickEle(null);
-      setCurrentPick(null);
+      if(currentPick && currentPick < 4) {
+        let $spaces = document.querySelectorAll(`#row-${currentRow} .code-space`);
+        setColor($spaces[currentPick], currentRow, currentPick + 1); 
+      } else {
+        setCurrentPick(null);
+      }
     }
   }
 
@@ -130,8 +136,8 @@ const App = () => {
       setStatus(`You won in ${currentRow}! 🎉`);
       reveal();
     } else {
+      setCurrentPick(1);
       setCurrentRow(currentRow + 1);
-      setPicks(["", "", "", ""]);
     }
   }
 
@@ -139,8 +145,19 @@ const App = () => {
     if (currentRow > 10) {
       setStatus("You lose 😭");
       reveal();
+    } else {
+      setNextPick();
     }
   }, [currentRow]);
+
+  function setNextPick() {
+    setTimeout(() => {
+    if (currentRow && currentRow >=1) {
+      let $spaces = document.querySelectorAll(`#row-${currentRow} .code-space`);
+      setPicks(["", "", "", ""]);
+      setColor($spaces[0], currentRow, 1);
+    }}, 10);
+  }
 
   function reveal() {
     let $answerRow = document.getElementById(`answer`);
@@ -201,25 +218,25 @@ const App = () => {
           >
             <div
               onClick={(e) => {
-                setColor(e, row, 1);
+                setColor(e.target, row, 1);
               }}
               className="code-space"
             ></div>
             <div
               onClick={(e) => {
-                setColor(e, row, 2);
+                setColor(e.target, row, 2);
               }}
               className="code-space"
             ></div>
             <div
               onClick={(e) => {
-                setColor(e, row, 3);
+                setColor(e.target, row, 3);
               }}
               className="code-space"
             ></div>
             <div
               onClick={(e) => {
-                setColor(e, row, 4);
+                setColor(e.target, row, 4);
               }}
               className="code-space"
             ></div>

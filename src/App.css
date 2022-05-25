@@ -39,21 +39,20 @@
 .code-box {
   border:1px solid #ccc;
   margin: 1rem auto;
-  width: 196px;
+  width: 206px;
   position: relative;
   border-radius: 8px;
 }
 .code-row {
   display: flex;
-  border:1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 2px;
+  border-bottom:2px solid #ccc;
+  padding: 2px;
 }
 .code-space {
   background-color:#bbb;
   width: 36px;
   height: 36px;
-  margin: 1px;
+  margin: 2px;
   border-radius: 24px;
   border: 1px solid #bbb;
   box-shadow: 2px 1px 1px #8b98ca;
@@ -83,8 +82,10 @@
 }
 
 .highlight {
-  border:1px solid #702ecc;
-  opacity: 0.85;
+  background-color: #e6fbfb;
+}
+.code-space.highlight {
+  box-shadow: 2px 2px #646060;
 }
 .peg {
   height: 8px;
@@ -100,6 +101,7 @@
 .grade {
   width: 24px;
   padding: 4px;
+  margin: 5px 0;
 }
 
 
