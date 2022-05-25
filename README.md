@@ -27,3 +27,4 @@ If you guess the correct code, you win!
 
 - Just for fun https://patricksimpson.me/mastermind/
 - Tech: Node/JS/React (CRA)
+- If you like this or you think it sucks and want me to keep working on it [buy me a coffee](https://www.buymeacoffee.com/patricksimpson)
