@@ -5,8 +5,7 @@ The "guess the code game". I'll add some other features later on, for now, it's 
 ## How to play
 
 - Click a gray space, then pick a color on the left.
-- Once you have 4 color spaces, press "grade" to see your score for that row:
-![image](https://user-images.githubusercontent.com/856965/170101784-4386d2f0-f8f2-4471-ad22-4ce16f5556ef.png)
+- Once you have 4 color spaces, press "score" to see your score for that row.
 
 For more detailed instructions: https://www.wikihow.com/Play-Mastermind
 
@@ -19,8 +18,6 @@ For more detailed instructions: https://www.wikihow.com/Play-Mastermind
 ### End
 
 If you guess the correct code, you win! 
-
-![image](https://user-images.githubusercontent.com/856965/170102734-9dac1431-1f8b-493f-bded-df6f6d6ad410.png)
 
 ### Restart
 
