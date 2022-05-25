@@ -57,7 +57,7 @@ const App = () => {
   }
 
   function setColor(ele, row, space) {
-    if (row!== currentRow) return;
+    if (row !== currentRow) return;
     ele.classList.add("highlight");
     if (currentPickEle) {
       currentPickEle.classList.remove("highlight");
@@ -85,9 +85,11 @@ const App = () => {
       currentPickEle.classList.add(color);
       let pEle = document.getElementById("color-picker");
       setCurrentPickEle(null);
-      if(currentPick && currentPick < 4) {
-        let $spaces = document.querySelectorAll(`#row-${currentRow} .code-space`);
-        setColor($spaces[currentPick], currentRow, currentPick + 1); 
+      if (currentPick && currentPick < 4) {
+        let $spaces = document.querySelectorAll(
+          `#row-${currentRow} .code-space`
+        );
+        setColor($spaces[currentPick], currentRow, currentPick + 1);
       } else {
         setCurrentPick(null);
       }
@@ -152,11 +154,14 @@ const App = () => {
 
   function setNextPick() {
     setTimeout(() => {
-    if (currentRow && currentRow >=1) {
-      let $spaces = document.querySelectorAll(`#row-${currentRow} .code-space`);
-      setPicks(["", "", "", ""]);
-      setColor($spaces[0], currentRow, 1);
-    }}, 10);
+      if (currentRow && currentRow >= 1) {
+        let $spaces = document.querySelectorAll(
+          `#row-${currentRow} .code-space`
+        );
+        setPicks(["", "", "", ""]);
+        setColor($spaces[0], currentRow, 1);
+      }
+    }, 10);
   }
 
   function reveal() {
@@ -200,7 +205,10 @@ const App = () => {
         <br />
         <br />
         <a href="https://github.com/patricksimpson/mastermind">Github</a> |{" "}
-        <a href="https://www.wikihow.com/Play-Mastermind">How to play</a>
+        <a href="https://www.wikihow.com/Play-Mastermind">How to play</a> |{" "}
+        <a href="https://www.buymeacoffee.com/patricksimpson">
+          Buy me a coffee
+        </a>
       </div>
     );
   }
@@ -326,8 +334,17 @@ const App = () => {
       <br />
       <br />
       <br />
-      <a target="_blank" href="https://github.com/patricksimpson/mastermind">Github</a> |{" "}
-      <a target="_blank" href="https://www.wikihow.com/Play-Mastermind">How to play</a>
+      <a target="_blank" href="https://github.com/patricksimpson/mastermind">
+        Github
+      </a>{" "}
+      |{" "}
+      <a target="_blank" href="https://www.wikihow.com/Play-Mastermind">
+        How to play
+      </a>
+      |{" "}
+      <a target="_blank" href="https://www.buymeacoffee.com/patricksimpson">
+        Buy me a coffee
+      </a>
     </div>
   );
 };
