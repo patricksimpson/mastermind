@@ -236,7 +236,7 @@ const App = () => {
         <br />
         <br />
         <label>
-          Allow multiple colors in code?
+          Allow multiple same color in codes?
           <input
             type="checkbox"
             onChange={(e) => {
