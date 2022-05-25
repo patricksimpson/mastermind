@@ -206,9 +206,7 @@ const App = () => {
         <br />
         <a href="https://github.com/patricksimpson/mastermind">Github</a> |{" "}
         <a href="https://www.wikihow.com/Play-Mastermind">How to play</a> |{" "}
-        <a href="https://www.buymeacoffee.com/patricksimpson">
-          Buy me a coffee
-        </a>
+        <a href="https://www.buymeacoffee.com/patricksimpson">Buy me a ☕</a>
       </div>
     );
   }
@@ -343,7 +341,7 @@ const App = () => {
       </a>
       |{" "}
       <a target="_blank" href="https://www.buymeacoffee.com/patricksimpson">
-        Buy me a coffee
+        Buy me a ☕
       </a>
     </div>
   );
