@@ -82,10 +82,11 @@
 }
 
 .highlight {
-  background-color: #e6fbfb;
+  background-color: #c6fbfb;
 }
 .code-space.highlight {
   box-shadow: 2px 2px #646060;
+  background-color: gray;
 }
 .peg {
   height: 8px;
@@ -154,6 +155,9 @@
   font-size: 1.5rem;
   border: 1px solid #333;
   cursor: pointer;
+}
+.off {
+  background-color: #6e6a76;
 }
 h1, h2 {
   color: #222;

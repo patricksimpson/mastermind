@@ -58,6 +58,7 @@ const App = () => {
 
   function setColor(ele, row, space) {
     if (row !== currentRow) return;
+    if (ele == currentPickEle) return;
     ele.classList.add("highlight");
     if (currentPickEle) {
       currentPickEle.classList.remove("highlight");
@@ -83,6 +84,10 @@ const App = () => {
       currentPickEle.className = "";
       currentPickEle.classList.add("code-space");
       currentPickEle.classList.add(color);
+      if (picks.indexOf("") < 0) {
+        let $score = document.getElementById("score-button");
+        $score.classList.remove("off");
+      }
       let pEle = document.getElementById("color-picker");
       setCurrentPickEle(null);
       if (currentPick && currentPick < 4) {
@@ -107,6 +112,9 @@ const App = () => {
         return 2;
       }
     });
+
+    let $score = document.getElementById("score-button");
+    $score.classList.add("off");
 
     let whites = picks.map((pick) => {
       if (tempCode.indexOf(pick) >= 0) {
@@ -326,7 +334,7 @@ const App = () => {
           )}
         </div>
       </div>
-      <button onClick={gradeRow} className="button">
+      <button id="score-button" onClick={gradeRow} className="button off">
         Score
       </button>
       <br />
