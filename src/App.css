@@ -161,4 +161,13 @@
 }
 h1, h2 {
   color: #222;
+  margin: 0.85rem 0;
+}
+
+.icon {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  top: 8px;
+  left: 0px;
 }

@@ -12,6 +12,7 @@ const App = () => {
   const [currentPickEle, setCurrentPickEle] = useState(null);
   const [picks, setPicks] = useState([]);
   const [status, setStatus] = useState(null);
+  const [doubles, setDoubles] = useState(false);
   const [mode, setMode] = useState();
 
   useEffect(() => {
@@ -29,12 +30,24 @@ const App = () => {
       colors.push("orange");
     }
 
-    let tempCode = shuffleArray(colors).splice(0, 4);
+    let tempCode = generateCode(colors);
     setCode(tempCode);
     setCurrentRow(1);
     setPicks(["", "", "", ""]);
     setNextPick();
   };
+
+  function generateCode(colors) {
+    let tc = [];
+    if (!doubles) {
+      return shuffleArray(colors).splice(0, 4);
+    }
+    for (let i = 0; i < 4; i++) {
+      let index = Math.floor(Math.random() * colors.length);
+      tc.push(colors[index]);
+    }
+    return tc;
+  }
 
   useEffect(() => {
     let $row = document.getElementById(`row-${currentRow}`);
@@ -57,6 +70,9 @@ const App = () => {
   }
 
   function setColor(ele, row, space) {
+    if (!ele) {
+      return;
+    }
     if (row !== currentRow) return;
     if (ele == currentPickEle) {
       ele.classList.remove("highlight");
@@ -113,7 +129,8 @@ const App = () => {
     let tempCode = [...code];
     let reds = picks.map((pick, index) => {
       if (pick == code[index]) {
-        tempCode[index] = "";
+        tempCode[index] = "y";
+        picks[index] = "x";
         return 2;
       }
     });
@@ -124,7 +141,7 @@ const App = () => {
     let whites = picks.map((pick) => {
       if (tempCode.indexOf(pick) >= 0) {
         let index = tempCode.indexOf(pick);
-        tempCode[index] = "";
+        tempCode[index] = "y";
         return 1;
       }
       return 0;
@@ -189,7 +206,9 @@ const App = () => {
   if (!mode) {
     return (
       <div className="App">
-        <h1>Mastermind</h1>
+        <h1>
+          Mastermind <img src="mastermind/favicon.png" className="icon" />
+        </h1>
         <button
           className="button"
           onClick={() => {
@@ -216,6 +235,17 @@ const App = () => {
         </button>
         <br />
         <br />
+        <label>
+          Allow multiple colors in code?
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setDoubles(e.target.checked);
+            }}
+          />
+        </label>
+        <br />
+        <br />
         <br />
         <a href="https://github.com/patricksimpson/mastermind">Github</a> |{" "}
         <a href="https://www.wikihow.com/Play-Mastermind">How to play</a> |{" "}
@@ -226,7 +256,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Mastermind</h1>
+      <h1>
+        Mastermind <img src="mastermind/favicon.png" className="icon" />
+      </h1>
       {status && <h2>{status}</h2>}
       <div className="code-box">
         {rows.map((row, index) => (
@@ -351,7 +383,7 @@ const App = () => {
       |{" "}
       <a target="_blank" href="https://www.wikihow.com/Play-Mastermind">
         How to play
-      </a>
+      </a>{" "}
       |{" "}
       <a target="_blank" href="https://www.buymeacoffee.com/patricksimpson">
         Buy me a ☕
