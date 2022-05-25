@@ -58,7 +58,12 @@ const App = () => {
 
   function setColor(ele, row, space) {
     if (row !== currentRow) return;
-    if (ele == currentPickEle) return;
+    if (ele == currentPickEle) {
+      ele.classList.remove("highlight");
+      setCurrentPick(null);
+      setCurrentPickEle(null);
+      return;
+    }
     ele.classList.add("highlight");
     if (currentPickEle) {
       currentPickEle.classList.remove("highlight");
@@ -70,8 +75,6 @@ const App = () => {
 
   function showColorPicker(ele) {
     let pEle = document.getElementById("color-picker");
-    // let top = ele.offsetTop + 42 + "px";
-    // pEle.style.top = top;
     pEle.style.display = "block";
   }
 
@@ -94,7 +97,9 @@ const App = () => {
         let $spaces = document.querySelectorAll(
           `#row-${currentRow} .code-space`
         );
-        setColor($spaces[currentPick], currentRow, currentPick + 1);
+        if (picks[currentPick] == "") {
+          setColor($spaces[currentPick], currentRow, currentPick + 1);
+        }
       } else {
         setCurrentPick(null);
       }
