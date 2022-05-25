@@ -235,14 +235,14 @@ const App = () => {
         </button>
         <br />
         <br />
-        <label>
-          Allow multiple same color in codes?
+        <label title="Allow multiple of the same colors to appear in the code">
           <input
             type="checkbox"
             onChange={(e) => {
               setDoubles(e.target.checked);
             }}
           />
+          Allow doubles in the code?
         </label>
         <br />
         <br />

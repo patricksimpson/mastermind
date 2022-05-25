@@ -146,6 +146,10 @@
   background-color: white;
 }
 
+label {
+  cursor: pointer;
+}
+
 .button {
   width: 196px;
   color: white;
