@@ -176,6 +176,13 @@ h1, h2 {
   left: 0px;
 }
 
+.shared-game h1 {
+  color: #3b6020;
+}
+
+.floater {
+}
+
 .share {
   margin: 1em;
 }

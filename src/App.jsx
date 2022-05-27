@@ -361,11 +361,16 @@ const App = () => {
     setShowShare(!showShare);
   }
 
+  let extraClass = 'App';
+  if(sharedGame) {
+    extraClass = extraClass + ' shared-game';
+  }
   return (
-    <div className="App">
+    <div className={extraClass}>
       <h1>
         Mastermind <img src="favicon.png" className="icon" />
       </h1>
+      {sharedGame && <div>(shared game)</div>}
       {status && <h2>{status}</h2>}
       <div className="code-box">
         {rows.map((row, index) => (
