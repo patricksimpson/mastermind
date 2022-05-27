@@ -379,6 +379,10 @@ const App = () => {
     let genCode = gameId || sharedGame;
     let genMode = parseInt(mode, 10);
     if(mode == 1) {
+      if(picks.indexOf('') >= 0) {
+        alert('no blanks yet ;)');
+        return;
+      }
       if(picks) {
         genMode = 8;
         genCode = encode(encodeCode(picks, genColors(genMode)));
