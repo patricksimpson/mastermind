@@ -58,6 +58,7 @@ const App = () => {
       setGameId(encoded);
     } else {
       tempCode = decodeCode(scode, [...colors]);
+      setGameId(scode);
       setSharedGame(scode);
     }
     setCode(tempCode);
