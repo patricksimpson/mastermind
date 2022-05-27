@@ -30,10 +30,23 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    init();
+    if(mode > 1) {
+      init();
+    } else {
+      customGame();
+    }
+
   }, [mode]);
 
-  const genColors = () => {
+  const customGame = () => {
+    let colors = genColors(8);
+    setCode(["", "", "", ""]);
+    setCurrentRow(1);
+    setPicks(["", "", "", ""]);
+    setNextPick();
+  };
+
+  const genColors = (mode) => {
     let colors = ["blue", "green", "red", "black", "white", "yellow"];
 
     if (mode > 6) {
@@ -51,7 +64,7 @@ const App = () => {
     
     if(!mode) return;
     let tempCode = [];
-    let colors = genColors();
+    let colors = genColors(mode);
     if(!scode) {
       tempCode = generateCode([...colors]);
       let encoded = encode(encodeCode(tempCode, colors));
@@ -234,7 +247,7 @@ const App = () => {
       if(currentRow > 8) {
         emoji = emoji + '😅';
       }
-      let colors = genColors();
+      let colors = genColors(mode);
       let encoded = sharedGame;
       let item = null;
       if(encoded !== null) {
@@ -290,13 +303,10 @@ const App = () => {
   }
 
   function decode(base64) {
-
-    // Add removed at end '='
     base64 += Array(5 - base64.length % 4).join('=');
-
     base64 = base64
-      .replace(/\-/g, '+') // Convert '-' to '+'
-      .replace(/\_/g, '/'); // Convert '_' to '/'
+      .replace(/\-/g, '+')
+      .replace(/\_/g, '/');
 
     return base64;
 
@@ -304,9 +314,9 @@ const App = () => {
   function encode(buffer) {
 
   return buffer.toString('base64')
-    .replace(/\+/g, '-') // Convert '+' to '-'
-    .replace(/\//g, '_') // Convert '/' to '_'
-    .replace(/=+$/, ''); // Remove ending '='
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
   }
 
   if (!mode) {
@@ -338,7 +348,7 @@ const App = () => {
           }}
         >
           Hard
-        </button>
+        </button>{" "}
         <br />
         <br />
         <label title="Allow multiple of the same colors to appear in the code">
@@ -350,14 +360,34 @@ const App = () => {
           />
           Allow doubles in the code?
         </label>
+        <br />
+        <br />
+        <button
+          className="button"
+          onClick={() => {
+            setMode(1);
+          }}
+        >
+          Create Code
+        </button>{" "}
         <Footer />
       </div>
     );
   }
 
   function shareGame() {
-    url.searchParams.set('g', gameId || sharedGame);
-    url.searchParams.set('m', encode(btoa(mode)));
+    let genCode = gameId || sharedGame;
+    let genMode = parseInt(mode, 10);
+    if(mode == 1) {
+      if(picks) {
+        genMode = 8;
+        genCode = encode(encodeCode(picks, genColors(genMode)));
+        setGameId(genCode);
+        setSharedGame(genCode);
+      }
+    }
+    url.searchParams.set('g', genCode);
+    url.searchParams.set('m', encode(btoa(genMode)));
     setShare(url.href);
     setShowShare(!showShare);
   }
@@ -365,6 +395,59 @@ const App = () => {
   let extraClass = 'App';
   if(sharedGame) {
     extraClass = extraClass + ' shared-game';
+  }
+
+  if(mode == 1) {
+    let row = 1;
+    let index = 1;
+    return (
+    <div className={extraClass}>
+      <h1>
+        Mastermind <img src="favicon.png" className="icon" />
+      </h1>
+      <div>Create a code and share with a friend!</div>
+      <div className="code-box">
+          <div
+            key={`mm-${index}`}
+            id={`row-${row}`}
+            className={`code-row ${index == 0 ? "highlight" : null}`}
+          >
+            <div
+              onClick={(e) => {
+                setColor(e.target, row, 1);
+              }}
+              className="code-space"
+            ></div>
+            <div
+              onClick={(e) => {
+                setColor(e.target, row, 2);
+              }}
+              className="code-space"
+            ></div>
+            <div
+              onClick={(e) => {
+                setColor(e.target, row, 3);
+              }}
+              className="code-space"
+            ></div>
+            <div
+              onClick={(e) => {
+                setColor(e.target, row, 4) ;
+              }}
+              className="code-space"
+            ></div>
+          </div>
+        {!showShare &&
+         <ColorPicker mode={8} pickColor={pickColor} />}
+
+      </div>
+      <button onClick={shareGame} className="button" title="share code with a friend">Share Code</button>
+      {showShare && <div className="share"><a href={share}>{share}</a></div>}
+      <br />
+      <br />
+      <button className="button" onClick={newGame}>New Game</button>
+      </div>
+    );
   }
   return (
     <div className={extraClass}>
@@ -419,7 +502,26 @@ const App = () => {
           <div id={`answer-4`} className="code-space"></div>
           <div className="grade" />
         </div>
+        <ColorPicker mode={mode} pickColor={pickColor}/>
+      </div>
+      <button id="score-button" onClick={gradeRow} className="button off">
+        Score
+      </button>
+      <br />
+      <br />
+      <button onClick={shareGame} className="button" title="share code with a friend">Share Code</button>
+      {showShare && <div className="share"><a href={share}>{share}</a></div>}
+      <br />
+      <br />
+      {sharedGame && <button className="button" onClick={newGame}>New Game</button>}
+      <Footer />
+    </div>
+  );
 
+};
+
+const ColorPicker = ({mode, pickColor}) => {
+  return (
         <div id="color-picker" className="color-picker">
           <div
             data-color="blue"
@@ -483,21 +585,7 @@ const App = () => {
             />
           )}
         </div>
-      </div>
-      <button id="score-button" onClick={gradeRow} className="button off">
-        Score
-      </button>
-      <br />
-      <br />
-      <button onClick={shareGame} className="button" title="share code with a friend">Share Code</button>
-      {showShare && <div className="share"><a href={share}>{share}</a></div>}
-      <br />
-      <br />
-      {sharedGame && <button className="button" onClick={newGame}>New Game</button>}
-      <Footer />
-    </div>
   );
-
 };
 
 const Footer = () => {
