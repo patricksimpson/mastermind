@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-const K = ['z','x','a','b'];
+const K = ["z", "x", "a", "b"];
 const C = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144].reverse();
 const url = new URL(window.location.href);
 
@@ -25,17 +25,16 @@ const App = () => {
 
   useEffect(() => {
     setSharedGame(null);
-    let smode = url.searchParams.get('m');
+    let smode = url.searchParams.get("m");
     setMode(parseInt(atob(smode), 10));
   }, []);
 
   useEffect(() => {
-    if(mode > 1) {
+    if (mode > 1) {
       init();
     } else {
       customGame();
     }
-
   }, [mode]);
 
   const customGame = () => {
@@ -60,12 +59,12 @@ const App = () => {
   };
 
   const init = () => {
-    let scode = url.searchParams.get('g');
-    
-    if(!mode) return;
+    let scode = url.searchParams.get("g");
+
+    if (!mode) return;
     let tempCode = [];
     let colors = genColors(mode);
-    if(!scode) {
+    if (!scode) {
       tempCode = generateCode([...colors]);
       let encoded = encode(encodeCode(tempCode, colors));
       setGameId(encoded);
@@ -106,12 +105,14 @@ const App = () => {
   }
 
   function decodeCode(code, colors) {
-    let arr = atob(code).split(',');
-    let mod = Math.min(...arr.map((e) => isNaN(parseInt(e, 18)) ? 9999 : parseInt(e, 18)));
+    let arr = atob(code).split(",");
+    let mod = Math.min(
+      ...arr.map((e) => (isNaN(parseInt(e, 18)) ? 9999 : parseInt(e, 18)))
+    );
     arr.shift();
-    let secret = ['','','',''];
+    let secret = ["", "", "", ""];
     arr.forEach((e) => {
-      if(mod != parseInt(e, 18)) {
+      if (mod != parseInt(e, 18)) {
         let pos = K.indexOf(e[0]);
         let index = C.indexOf(e.split(e[0])[1] - mod);
         let color = colors[index * 1];
@@ -119,7 +120,7 @@ const App = () => {
       }
     });
     return secret;
-  };
+  }
 
   useEffect(() => {
     let $row = document.getElementById(`row-${currentRow}`);
@@ -237,26 +238,26 @@ const App = () => {
       initialValue
     );
     if (sumWithInitial >= 8) {
-      let emoji = '🎉';
-      if(sharedGame) {
-        emoji = '✨';
+      let emoji = "🎉";
+      if (sharedGame) {
+        emoji = "✨";
       }
-      if(doubles) {
-        emoji = emoji + '🎉';
+      if (doubles) {
+        emoji = emoji + "🎉";
       }
-      if(currentRow > 8) {
-        emoji = emoji + '😅';
+      if (currentRow > 8) {
+        emoji = emoji + "😅";
       }
       let colors = genColors(mode);
       let encoded = sharedGame;
       let item = null;
-      if(encoded !== null) {
+      if (encoded !== null) {
         item = window.localStorage.getItem(encoded);
       }
-      if(item) {
-        emoji = '🤡';
+      if (item) {
+        emoji = "🤡";
         setStatus(`You aleady won in ${item} ${emoji}`);
-      } else { 
+      } else {
         window.localStorage.setItem(gameId, currentRow);
         setStatus(`You won in ${currentRow}! ${emoji}`);
       }
@@ -291,7 +292,7 @@ const App = () => {
   function newGame() {
     setSharedGame(null);
     window.location.href = window.location.origin + window.location.pathname;
-  };
+  }
 
   function reveal() {
     let $answerRow = document.getElementById(`answer`);
@@ -303,20 +304,17 @@ const App = () => {
   }
 
   function decode(base64) {
-    base64 += Array(5 - base64.length % 4).join('=');
-    base64 = base64
-      .replace(/\-/g, '+')
-      .replace(/\_/g, '/');
+    base64 += Array(5 - (base64.length % 4)).join("=");
+    base64 = base64.replace(/\-/g, "+").replace(/\_/g, "/");
 
     return base64;
-
   }
   function encode(buffer) {
-
-  return buffer.toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
+    return buffer
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
   }
 
   if (!mode) {
@@ -325,6 +323,7 @@ const App = () => {
         <h1>
           Mastermind <img src="favicon.png" className="icon" />
         </h1>
+        <h2>New Game</h2>
         <button
           className="button"
           onClick={() => {
@@ -362,14 +361,17 @@ const App = () => {
         </label>
         <br />
         <br />
-        <button
-          className="button"
-          onClick={() => {
-            setMode(1);
-          }}
-        >
-          Create Code
-        </button>{" "}
+        <div className="share">
+          <h2>Custom Game</h2>
+          <button
+            className="button"
+            onClick={() => {
+              setMode(1);
+            }}
+          >
+            Create Code
+          </button>{" "}
+        </div>
         <Footer />
       </div>
     );
@@ -378,39 +380,39 @@ const App = () => {
   function shareGame() {
     let genCode = gameId || sharedGame;
     let genMode = parseInt(mode, 10);
-    if(mode == 1) {
-      if(picks.indexOf('') >= 0) {
-        alert('no blanks yet ;)');
+    if (mode == 1) {
+      if (picks.indexOf("") >= 0) {
+        alert("no blanks yet ;)");
         return;
       }
-      if(picks) {
+      if (picks) {
         genMode = 8;
         genCode = encode(encodeCode(picks, genColors(genMode)));
         setGameId(genCode);
         setSharedGame(genCode);
       }
     }
-    url.searchParams.set('g', genCode);
-    url.searchParams.set('m', encode(btoa(genMode)));
+    url.searchParams.set("g", genCode);
+    url.searchParams.set("m", encode(btoa(genMode)));
     setShare(url.href);
     setShowShare(!showShare);
   }
 
-  let extraClass = 'App';
-  if(sharedGame) {
-    extraClass = extraClass + ' shared-game';
+  let extraClass = "App";
+  if (sharedGame) {
+    extraClass = extraClass + " shared-game";
   }
 
-  if(mode == 1) {
+  if (mode == 1) {
     let row = 1;
     let index = 1;
     return (
-    <div className={extraClass}>
-      <h1>
-        Mastermind <img src="favicon.png" className="icon" />
-      </h1>
-      <div>Create a code and share with a friend!</div>
-      <div className="code-box">
+      <div className={extraClass}>
+        <h1>
+          Mastermind <img src="favicon.png" className="icon" />
+        </h1>
+        <div>Create a code and share with a friend!</div>
+        <div className="code-box">
           <div
             key={`mm-${index}`}
             id={`row-${row}`}
@@ -436,20 +438,31 @@ const App = () => {
             ></div>
             <div
               onClick={(e) => {
-                setColor(e.target, row, 4) ;
+                setColor(e.target, row, 4);
               }}
               className="code-space"
             ></div>
           </div>
-        {!showShare &&
-         <ColorPicker mode={8} pickColor={pickColor} />}
-
-      </div>
-      <button onClick={shareGame} className="button" title="share code with a friend">Share Code</button>
-      {showShare && <div className="share"><a href={share}>{share}</a></div>}
-      <br />
-      <br />
-      <button className="button" onClick={newGame}>New Game</button>
+          {!showShare && <ColorPicker mode={8} pickColor={pickColor} />}
+        </div>
+        <button
+          onClick={shareGame}
+          className="button"
+          title="share code with a friend"
+        >
+          Share Code
+        </button>
+        {showShare && (
+          <div className="share">
+            <a href={share}>{share}</a>
+          </div>
+        )}
+        <br />
+        <br />
+        <button className="button" onClick={newGame}>
+          Return
+        </button>
+        <Footer />
       </div>
     );
   }
@@ -506,89 +519,98 @@ const App = () => {
           <div id={`answer-4`} className="code-space"></div>
           <div className="grade" />
         </div>
-        <ColorPicker mode={mode} pickColor={pickColor}/>
+        <ColorPicker mode={mode} pickColor={pickColor} />
       </div>
       <button id="score-button" onClick={gradeRow} className="button off">
         Score
       </button>
-      <br />
-      <br />
-      <button onClick={shareGame} className="button" title="share code with a friend">Share Code</button>
-      {showShare && <div className="share"><a href={share}>{share}</a></div>}
-      <br />
-      <br />
-      {sharedGame && <button className="button" onClick={newGame}>New Game</button>}
+      <div className="share">
+        <button
+          onClick={shareGame}
+          className="button"
+          title="share code with a friend"
+        >
+          Share Code
+        </button>
+        <br />
+        <br />
+        {showShare && <a href={share}>{share}</a>}
+      </div>
+      {sharedGame && (
+        <button className="button" onClick={newGame}>
+          New Game
+        </button>
+      )}
       <Footer />
     </div>
   );
-
 };
 
-const ColorPicker = ({mode, pickColor}) => {
+const ColorPicker = ({ mode, pickColor }) => {
   return (
-        <div id="color-picker" className="color-picker">
-          <div
-            data-color="blue"
-            className="pick blue"
-            onClick={(e) => {
-              pickColor(e);
-            }}
-          />
-          <div
-            data-color="black"
-            className="pick black"
-            onClick={(e) => {
-              pickColor(e);
-            }}
-          />
-          <div
-            data-color="yellow"
-            className="pick yellow"
-            onClick={(e) => {
-              pickColor(e);
-            }}
-          />
-          <div
-            data-color="white"
-            className="pick white"
-            onClick={(e) => {
-              pickColor(e);
-            }}
-          />
-          <div
-            data-color="red"
-            className="pick red"
-            onClick={(e) => {
-              pickColor(e);
-            }}
-          />
-          <div
-            data-color="green"
-            className="pick green"
-            onClick={(e) => {
-              pickColor(e);
-            }}
-          />
-          {mode > 6 && (
-            <div
-              data-color="pink"
-              className="pick pink"
-              onClick={(e) => {
-                pickColor(e);
-              }}
-            />
-          )}
+    <div id="color-picker" className="color-picker">
+      <div
+        data-color="blue"
+        className="pick blue"
+        onClick={(e) => {
+          pickColor(e);
+        }}
+      />
+      <div
+        data-color="black"
+        className="pick black"
+        onClick={(e) => {
+          pickColor(e);
+        }}
+      />
+      <div
+        data-color="yellow"
+        className="pick yellow"
+        onClick={(e) => {
+          pickColor(e);
+        }}
+      />
+      <div
+        data-color="white"
+        className="pick white"
+        onClick={(e) => {
+          pickColor(e);
+        }}
+      />
+      <div
+        data-color="red"
+        className="pick red"
+        onClick={(e) => {
+          pickColor(e);
+        }}
+      />
+      <div
+        data-color="green"
+        className="pick green"
+        onClick={(e) => {
+          pickColor(e);
+        }}
+      />
+      {mode > 6 && (
+        <div
+          data-color="pink"
+          className="pick pink"
+          onClick={(e) => {
+            pickColor(e);
+          }}
+        />
+      )}
 
-          {mode > 7 && (
-            <div
-              data-color="orange"
-              className="pick orange"
-              onClick={(e) => {
-                pickColor(e);
-              }}
-            />
-          )}
-        </div>
+      {mode > 7 && (
+        <div
+          data-color="orange"
+          className="pick orange"
+          onClick={(e) => {
+            pickColor(e);
+          }}
+        />
+      )}
+    </div>
   );
 };
 
@@ -605,9 +627,9 @@ const Footer = () => {
       |{" "}
       <a target="_blank" href="https://www.buymeacoffee.com/patricksimpson">
         Buy me a ☕
-    </a>
-</div>
+      </a>
+    </div>
   );
-}
+};
 
 export default App;
