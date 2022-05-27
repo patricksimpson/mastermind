@@ -24,6 +24,7 @@ const App = () => {
   const [mode, setMode] = useState();
 
   useEffect(() => {
+    setSharedGame(null);
     let smode = url.searchParams.get('m');
     setMode(parseInt(atob(smode), 10));
   }, []);
@@ -60,7 +61,6 @@ const App = () => {
       setSharedGame(scode);
     }
     setCode(tempCode);
-    console.log(tempCode);
     setCurrentRow(1);
     setPicks(["", "", "", ""]);
     setNextPick();
@@ -235,7 +235,10 @@ const App = () => {
       }
       let colors = genColors();
       let encoded = sharedGame;
-      let item = window.localStorage.getItem(encoded);
+      let item = null;
+      if(encoded !== null) {
+        item = window.localStorage.getItem(encoded);
+      }
       if(item) {
         emoji = '🤡';
         setStatus(`You aleady won in ${item} ${emoji}`);
@@ -272,6 +275,7 @@ const App = () => {
   }
 
   function newGame() {
+    setSharedGame(null);
     window.location.href = window.location.origin + window.location.pathname;
   };
 
