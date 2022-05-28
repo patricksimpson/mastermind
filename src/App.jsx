@@ -21,6 +21,7 @@ const App = () => {
   const [sharedGame, setSharedGame] = useState(null);
   const [gameId, setGameId] = useState(null);
   const [doubles, setDoubles] = useState(false);
+  const [blanks, setBlanks] = useState(false);
   const [mode, setMode] = useState();
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const App = () => {
   }, [mode]);
 
   const customGame = () => {
-    let colors = genColors(8);
+    let colors = genColors(9);
     setCode(["", "", "", ""]);
     setCurrentRow(1);
     setPicks(["", "", "", ""]);
@@ -55,11 +56,16 @@ const App = () => {
     if (mode > 7) {
       colors.push("orange");
     }
+
+    if (mode > 8) {
+      colors.push("blank");
+    }
     return colors;
   };
 
   const init = () => {
     let scode = url.searchParams.get("g");
+    let sblank = url.searchParams.get("b");
 
     if (!mode) return;
     let tempCode = [];
@@ -72,6 +78,9 @@ const App = () => {
       tempCode = decodeCode(scode, [...colors]);
       setGameId(scode);
       setSharedGame(scode);
+      if(sblank == 'y' || tempCode.indexOf('blank') >= 0) {
+        setBlanks(true);
+      }
     }
     setCode(tempCode);
     setCurrentRow(1);
@@ -176,9 +185,11 @@ const App = () => {
       currentPickEle.className = "";
       currentPickEle.classList.add("code-space");
       currentPickEle.classList.add(color);
-      if (picks.indexOf("") < 0) {
+      if (!doubles && picks.indexOf("") < 0) {
         let $score = document.getElementById("score-button");
-        $score.classList.remove("off");
+        if($score) {
+          $score.classList.remove("off");
+        }
       }
       let pEle = document.getElementById("color-picker");
       setCurrentPickEle(null);
@@ -196,23 +207,26 @@ const App = () => {
   }
 
   function gradeRow() {
-    if (picks.indexOf("") >= 0) {
+    if (!blanks && picks.indexOf("") >= 0) {
       return;
     }
+
     let tempCode = [...code];
     let reds = picks.map((pick, index) => {
-      if (pick == code[index]) {
+      if (pick == code[index] || (blanks && pick == '' && code[index] == 'blank')) {
         tempCode[index] = "y";
         picks[index] = "x";
         return 2;
       }
     });
 
-    let $score = document.getElementById("score-button");
-    $score.classList.add("off");
+    if(!blanks) {
+      let $score = document.getElementById("score-button");
+      $score.classList.add("off");
+    }
 
     let whites = picks.map((pick) => {
-      if (tempCode.indexOf(pick) >= 0) {
+      if (tempCode.indexOf(pick) >= 0 || (blanks && pick == '' && tempCode.indexOf('blank') >= 0)) {
         let index = tempCode.indexOf(pick);
         tempCode[index] = "y";
         return 1;
@@ -360,6 +374,16 @@ const App = () => {
           Allow doubles in the code?
         </label>
         <br />
+        <label title="Allow blanks to appear in the code">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setBlanks(e.target.checked);
+            }}
+          />
+          Allow blanks in the code?
+        </label>
+        <br />
         <br />
         <div className="share">
           <h2>Custom Game</h2>
@@ -381,19 +405,24 @@ const App = () => {
     let genCode = gameId || sharedGame;
     let genMode = parseInt(mode, 10);
     if (mode == 1) {
-      if (picks.indexOf("") >= 0) {
-        alert("no blanks yet ;)");
+      if (!blanks && picks.indexOf("") >= 0) {
+        alert("no blanks");
         return;
       }
       if (picks) {
-        genMode = 8;
-        genCode = encode(encodeCode(picks, genColors(genMode)));
+        genMode = 9;
+        genCode = encode(encodeCode(picks.map((pick) => {if(pick == '') { return 'blank'; } return pick; }), genColors(genMode)));
         setGameId(genCode);
         setSharedGame(genCode);
       }
     }
     url.searchParams.set("g", genCode);
     url.searchParams.set("m", encode(btoa(genMode)));
+    if(blanks) {
+      url.searchParams.set("b", 'y');
+    } else {
+      url.searchParams.set("b", 'n');
+    }
     setShare(url.href);
     setShowShare(!showShare);
   }
@@ -411,8 +440,21 @@ const App = () => {
         <h1>
           Mastermind <img src="favicon.png" className="icon" />
         </h1>
+
         <div>Create a code and share with a friend!</div>
+        <div className="options">
+        <label title="Allow blanks to appear in the code">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setBlanks(e.target.checked);
+            }}
+          />
+          Allow blanks in the code?
+        </label>
+        </div>
         <div className="code-box">
+
           <div
             key={`mm-${index}`}
             id={`row-${row}`}
@@ -443,7 +485,7 @@ const App = () => {
               className="code-space"
             ></div>
           </div>
-          {!showShare && <ColorPicker mode={8} pickColor={pickColor} />}
+          {!showShare && <ColorPicker mode={8} pickColor={pickColor} blanks={blanks} />}
         </div>
         <button
           onClick={shareGame}
@@ -519,9 +561,9 @@ const App = () => {
           <div id={`answer-4`} className="code-space"></div>
           <div className="grade" />
         </div>
-        <ColorPicker mode={mode} pickColor={pickColor} />
+        <ColorPicker mode={mode} pickColor={pickColor} blanks={blanks} />
       </div>
-      <button id="score-button" onClick={gradeRow} className="button off">
+    <button id="score-button" onClick={gradeRow} className={`button ${!blanks ? 'off' : ''}`}>
         Score
       </button>
       <div className="share">
@@ -546,7 +588,7 @@ const App = () => {
   );
 };
 
-const ColorPicker = ({ mode, pickColor }) => {
+const ColorPicker = ({ mode, pickColor, blanks }) => {
   return (
     <div id="color-picker" className="color-picker">
       <div
@@ -605,6 +647,16 @@ const ColorPicker = ({ mode, pickColor }) => {
         <div
           data-color="orange"
           className="pick orange"
+          onClick={(e) => {
+            pickColor(e);
+          }}
+        />
+      )}
+
+      {blanks && (
+        <div
+          data-color="blank"
+          className="pick blank"
           onClick={(e) => {
             pickColor(e);
           }}
