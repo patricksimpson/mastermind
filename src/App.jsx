@@ -57,7 +57,7 @@ const App = () => {
       colors.push("orange");
     }
 
-    if (mode > 8) {
+    if (blanks || mode > 8) {
       colors.push("blank");
     }
     return colors;
