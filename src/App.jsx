@@ -46,7 +46,7 @@ const App = () => {
     setNextPick();
   };
 
-  const genColors = (mode) => {
+  const genColors = (mode, b = blanks) => {
     let colors = ["blue", "green", "red", "black", "white", "yellow"];
 
     if (mode > 6) {
@@ -57,7 +57,7 @@ const App = () => {
       colors.push("orange");
     }
 
-    if (blanks || mode > 8) {
+    if (b || mode > 8) {
       colors.push("blank");
     }
     return colors;
@@ -71,14 +71,19 @@ const App = () => {
     let tempCode = [];
     let colors = genColors(mode);
     if (!scode) {
+      colors = genColors(mode);
       tempCode = generateCode([...colors]);
       let encoded = encode(encodeCode(tempCode, colors));
       setGameId(encoded);
     } else {
+      if(sblank == 'y') {
+        colors = genColors(mode, true);
+        setBlanks(true);
+      }
       tempCode = decodeCode(scode, [...colors]);
       setGameId(scode);
       setSharedGame(scode);
-      if(sblank == 'y' || tempCode.indexOf('blank') >= 0) {
+      if(tempCode.indexOf('blank') >= 0) {
         setBlanks(true);
       }
     }
