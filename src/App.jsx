@@ -338,6 +338,26 @@ const App = () => {
           Mastermind <img src="favicon.png" className="icon" />
         </h1>
         <h2>New Game</h2>
+        <label title="Allow multiple of the same colors to appear in the code">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setDoubles(e.target.checked);
+            }}
+          />
+          Allow doubles in the code?
+        </label>
+        <label title="Allow blanks to appear in the code">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setBlanks(e.target.checked);
+            }}
+          />
+          Allow blanks in the code?
+        </label>
+        <br />
+        <br />
         <button
           className="button"
           onClick={() => {
@@ -362,29 +382,6 @@ const App = () => {
         >
           Hard
         </button>{" "}
-        <br />
-        <br />
-        <label title="Allow multiple of the same colors to appear in the code">
-          <input
-            type="checkbox"
-            onChange={(e) => {
-              setDoubles(e.target.checked);
-            }}
-          />
-          Allow doubles in the code?
-        </label>
-        <br />
-        <label title="Allow blanks to appear in the code">
-          <input
-            type="checkbox"
-            onChange={(e) => {
-              setBlanks(e.target.checked);
-            }}
-          />
-          Allow blanks in the code?
-        </label>
-        <br />
-        <br />
         <div className="share">
           <h2>Custom Game</h2>
           <button

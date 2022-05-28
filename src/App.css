@@ -154,6 +154,8 @@
 
 label {
   cursor: pointer;
+  padding: 0.5rem;
+  display: inline-block;
 }
 
 .button {
