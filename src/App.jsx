@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import logo from "./logo.svg";
+import logo from "./logo.png";
 import "./App.css";
 
 const K = ["z", "x", "a", "b"];
