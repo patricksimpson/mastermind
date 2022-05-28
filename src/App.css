@@ -83,12 +83,20 @@
   box-shadow: 2px 1px 1px #8b98ca;
 }
 
-.highlight {
+.code-row.highlight {
   background-color: #c6fbfb;
 }
 .code-space.highlight {
   box-shadow: 2px 2px #646060;
-  background-color: gray;
+  animation-name: toggleOpacity;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes toggleOpacity {
+  0% { opacity: 1; } /* Turn off */
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
 }
 .peg {
   height: 8px;
