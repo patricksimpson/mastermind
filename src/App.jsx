@@ -429,7 +429,7 @@ const App = () => {
     try {
       await navigator.share({
         title: 'Mastermind',
-        text: 'Try to crack this Mastermind code',
+        text: 'Try to crack this code',
         url: url.href
       });
       } catch(err) {
