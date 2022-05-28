@@ -403,7 +403,7 @@ const App = () => {
     );
   }
 
-  function shareGame() {
+  async function shareGame() {
     let genCode = gameId || sharedGame;
     let genMode = parseInt(mode, 10);
     if (mode == 1) {
@@ -426,6 +426,15 @@ const App = () => {
       url.searchParams.set("b", 'n');
     }
     setShare(url.href);
+    try {
+      await navigator.share({
+        title: 'Mastermind',
+        text: 'Try to crack this Mastermind code',
+        url: url.href
+      });
+      } catch(err) {
+        console.error(err);
+      }
     setShowShare(!showShare);
   }
 
