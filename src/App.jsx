@@ -340,7 +340,13 @@ const App = () => {
     $answerRow.classList.add("revealed");
     code.forEach((i, index) => {
       let $answer = document.getElementById(`answer-${index + 1}`);
-      $answer.classList.add(i);
+      if(emojiMode) {
+        $answer.classList.add('emoji');
+        $answer.innerHTML = emojiColor[i];
+      } else {
+        $answer.classList.add(i);
+      }
+
     });
   }
 
