@@ -41,6 +41,11 @@ const App = () => {
     setSharedGame(null);
     let smode = url.searchParams.get("m");
     setMode(parseInt(atob(smode), 10));
+    let semoji = url.searchParams.get("e");
+      if(semoji == 'y') {
+        setEmojiMode(true);
+      }
+
   }, []);
 
   useEffect(() => {
@@ -79,7 +84,6 @@ const App = () => {
   const init = () => {
     let scode = url.searchParams.get("g");
     let sblank = url.searchParams.get("b");
-
     if (!mode) return;
     let tempCode = [];
     let colors = genColors(mode);
@@ -458,6 +462,12 @@ const App = () => {
     } else {
       url.searchParams.set("b", 'n');
     }
+
+    if(emojiMode) {
+      url.searchParams.set("e", 'y');
+    } else {
+      url.searchParams.set("e", 'n');
+    }
     setShare(url.href);
     try {
       await navigator.share({
@@ -636,7 +646,6 @@ const ColorPicker = ({ mode, pickColor, blanks, emojiMode = false}) => {
   useEffect(() => {
     if(emojiMode) {
     let $colorEle = document.querySelectorAll('.pick');
-    console.log($colorEle);
     $colorEle.forEach((e) => {
       e.innerHTML = emojiColor[e.dataset.color];
       e.classList.add('emoji');
