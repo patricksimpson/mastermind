@@ -166,6 +166,11 @@ label {
   display: inline-block;
 }
 
+.emoji {
+  background-color: transparent;
+  font-size: 1.5rem;
+}
+
 .button {
   width: 196px;
   color: white;

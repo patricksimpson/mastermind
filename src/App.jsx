@@ -7,6 +7,18 @@ const K = ["z", "x", "a", "b"];
 const C = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144].reverse();
 const url = new URL(window.location.href);
 
+const emojiColor = {
+  'black': '💩',
+  'blue': '🐟',
+  'yellow': '😛',
+  'red': '🔥',
+  'green': '🥦',
+  'white': '👻',
+  'orange': '🍑',
+  'pink': '💖',
+  'blank': '',
+};
+
 const App = () => {
   const [code, setCode] = useState(null);
   const rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -23,6 +35,7 @@ const App = () => {
   const [doubles, setDoubles] = useState(false);
   const [blanks, setBlanks] = useState(false);
   const [mode, setMode] = useState();
+  const [emojiMode, setEmojiMode] = useState(false);
 
   useEffect(() => {
     setSharedGame(null);
@@ -189,7 +202,12 @@ const App = () => {
       setPicks(curPick);
       currentPickEle.className = "";
       currentPickEle.classList.add("code-space");
-      currentPickEle.classList.add(color);
+      if(emojiMode) {
+        currentPickEle.classList.add('emoji');
+        currentPickEle.innerHTML = emojiColor[color];
+      } else {
+        currentPickEle.classList.add(color);
+      }
       if (!doubles && picks.indexOf("") < 0) {
         let $score = document.getElementById("score-button");
         if($score) {
@@ -349,6 +367,8 @@ const App = () => {
             onChange={(e) => {
               setDoubles(e.target.checked);
             }}
+            value={doubles}
+            checked={doubles ? 'checked' : ''}
           />
           Allow doubles in the code?
         </label>
@@ -358,8 +378,21 @@ const App = () => {
             onChange={(e) => {
               setBlanks(e.target.checked);
             }}
+            value={blanks}
+            checked={blanks ? 'checked' : ''}
           />
           Allow blanks in the code?
+        </label>
+        <label title="Emoji Mode">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setEmojiMode(e.target.checked);
+            }}
+            value={emojiMode}
+            checked={emojiMode ? 'checked' : ''}
+          />
+😀 mode
         </label>
         <br />
         <br />
@@ -496,7 +529,7 @@ const App = () => {
               className="code-space"
             ></div>
           </div>
-          {!showShare && <ColorPicker mode={8} pickColor={pickColor} blanks={blanks} />}
+          {!showShare && <ColorPicker mode={8} pickColor={pickColor} blanks={blanks} emojiMode={emojiMode}/>}
         </div>
         <button
           onClick={shareGame}
@@ -572,7 +605,7 @@ const App = () => {
           <div id={`answer-4`} className="code-space"></div>
           <div className="grade" />
         </div>
-        <ColorPicker mode={mode} pickColor={pickColor} blanks={blanks} />
+        <ColorPicker mode={mode} pickColor={pickColor} blanks={blanks} emojiMode={emojiMode} />
       </div>
     <button id="score-button" onClick={gradeRow} className={`button ${!blanks ? 'off' : ''}`}>
         Score
@@ -599,7 +632,17 @@ const App = () => {
   );
 };
 
-const ColorPicker = ({ mode, pickColor, blanks }) => {
+const ColorPicker = ({ mode, pickColor, blanks, emojiMode = false}) => {
+  useEffect(() => {
+    if(emojiMode) {
+    let $colorEle = document.querySelectorAll('.pick');
+    console.log($colorEle);
+    $colorEle.forEach((e) => {
+      e.innerHTML = emojiColor[e.dataset.color];
+      e.classList.add('emoji');
+    });
+    }
+  }, []);
   return (
     <div id="color-picker" className="color-picker">
       <div
