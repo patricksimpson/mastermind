@@ -88,6 +88,7 @@
 }
 .code-space.highlight {
   box-shadow: 2px 2px #646060;
+  border-color: #9b21a5;
   animation-name: toggleOpacity;
   animation-duration: 1.5s;
   animation-iteration-count: infinite;
@@ -98,6 +99,7 @@
   50% { opacity: 0.5; }
   100% { opacity: 1; }
 }
+
 .peg {
   height: 8px;
   width: 8px;
